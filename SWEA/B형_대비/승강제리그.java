@@ -102,11 +102,12 @@ class UserSolution {
     void initMiddleQueue(People p, int index){
         if(middle_acs_queue[index].size() >= ((this.per_people + 1)/2)){
             if(middle_acs_queue[index].peek().compareTo(p) > 0){
-                middle_dsc_queue[index].offer(p);
-            }else{
+                // p가 더 크다
                 People temp = middle_acs_queue[index].poll();
                 middle_dsc_queue[index].offer(temp);
                 middle_acs_queue[index].offer(p);
+            }else{
+                middle_dsc_queue[index].offer(p);
             }
         }else{
             middle_acs_queue[index].offer(p);
@@ -115,7 +116,7 @@ class UserSolution {
     }
 
     void offerMiddleQueue(People p, int index){
-        if(middle_dsc_queue[index].peek().compareTo(p) < 0){
+        if(middle_dsc_queue[index].peek().compareTo(p) > 0){
             // p가 더 클때
             middle_acs_queue[index].offer(p);
         }else{
@@ -126,11 +127,11 @@ class UserSolution {
     }
 
     void offer_move_MiddleQueue(People p, int index){
-        if(middle_dsc_queue[index].peek().compareTo(p) < 0){
+        if(middle_dsc_queue[index].peek() == null || middle_dsc_queue[index].peek().compareTo(p) > 0){
             // p가 더 클때
             if(middle_acs_queue[index].size() >= ((this.per_people + 1) / 2)){
                 // 꽉 차있음
-                if(middle_acs_queue[index].peek().compareTo(p) < 0){
+                if(middle_acs_queue[index].peek().compareTo(p) > 0){
                     People temp = middle_acs_queue[index].poll();
                     middle_dsc_queue[index].offer(temp);
                     middle_acs_queue[index].offer(p);
@@ -253,8 +254,6 @@ class UserSolution {
 
         People[] temp_middle = new People[this.team_count];
         People[] temp_max = new People[this.team_count];
-
-        System.out.println(middle_dsc_queue[0].peek().id);
         
         // 중간애들 뽑기
         for(int i=0; i< this.team_count-1;i++){
@@ -294,8 +293,9 @@ class UserSolution {
 
         for (People p : set) {
             result += p.id;
-            System.out.print(p.id + " ");
+            // System.out.print(p.id + " ");
         }
+        // System.out.print('\n');
 
         return result;
     }
@@ -323,3 +323,5 @@ class UserSolution {
 
 // 시간복잡도 줄이기.
 // 우선순위 큐로 하면 바로 수정이 되어버림. 근데 그러면 안돼.
+
+// compareTo 주의해서 코딩해야할듯.
