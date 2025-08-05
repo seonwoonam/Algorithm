@@ -13,6 +13,12 @@ import java.util.*;
 // 5. 다시 배열 채우기
 // 6. 출력
 
+// 나의 구현
+// - 나머지 연산을 통해 각각의 요소들의 최종 위치를 판단.
+
+// 다른 구현
+// - 실제로 한 칸 씩 rotate 반복. 하지만 R이 너무 크기 때문에 반복되는 만큼을 판단해서 최소 수만 돌려주는 방식으로 구현
+
 class Main{    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
