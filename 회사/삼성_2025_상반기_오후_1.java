@@ -261,7 +261,10 @@ public class Main {
     }
 
     //  3. 실험 결과 기록
-    // - 미생물이 위치하는 곳부터 BFS 돌리기
+    // - 미생물이 위치하는 곳부터 BFS 돌리기 --> 이거를 BFS로 돌리면 안되는 이유
+        // A-C-B 구조에서 A,B도 맞닿아 있으면 A,B의 visited가 true가 된다. C에서 이과의 연결을 확인하려고
+        // 보면 이미 visited 되어 있기 때문에 값을 계산 할 수가 없다. 따라서 bfs로 하면 안된다.
+    // 그냥 3중 for문으로 해결하기
     // - 다른 아이디 처음 방문이면 곱하기
     public static void result() {
         boolean[][] adj = new boolean[Q + 1][Q + 1];
