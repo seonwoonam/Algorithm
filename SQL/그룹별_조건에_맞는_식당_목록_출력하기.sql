@@ -1,0 +1,30 @@
+/**
+    MEMBER_PROFILE : 고객의 정보 
+    REST_REVIEW : 식당의 리뷰 정보를 담은
+    
+    MEMBER_PROFILE 과 REST_REVIEW 테이블에서 
+    리뷰를 가장 많이 작성한 회원의
+    리뷰들을 조회하는 SQL 
+    
+    회원이름, 리뷰 텍스트, 리뷰 작성일 
+    리뷰작성일 기준으로 오름차순, 같아면 리뷰 텍스트
+**/
+
+WITH TEMP AS (
+    SELECT 
+        MEMBER_ID,
+        COUNT(*) AS CNT
+        FROM REST_REVIEW
+        GROUP BY MEMBER_ID
+        ORDER BY CNT DESC
+        LIMIT 1
+    )
+
+SELECT 
+    MEMBER_NAME,
+    REVIEW_TEXT,
+    DATE_FORMAT(REVIEW_DATE, "%Y-%m-%d") AS REVIEW_DATE
+FROM MEMBER_PROFILE
+JOIN REST_REVIEW ON MEMBER_PROFILE.MEMBER_ID = REST_REVIEW.MEMBER_ID
+WHERE MEMBER_PROFILE.MEMBER_ID IN (SELECT MEMBER_ID FROM TEMP)
+ORDER BY REST_REVIEW.REVIEW_DATE, REVIEW_TEXT
