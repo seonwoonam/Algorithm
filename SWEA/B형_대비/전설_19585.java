@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * 색상 이름과 닉네임 순서로 이어서 팀명을 지으면 icpc 리저널에서 수상
@@ -63,8 +62,9 @@ class Main {
     static String search(String str){
         Node color_node = color_root;
         Node nick_node = nick_root;
-        HashSet<Integer> color_set = new HashSet<>();
-        HashSet<Integer> nick_set = new HashSet<>();
+
+        boolean[] color_list = new boolean[2001];
+        boolean[] nick_list = new boolean[2001];
 
         for(int i=0; i<str.length();i++){
             char c = str.charAt(i);
@@ -73,7 +73,7 @@ class Main {
             }
             color_node = color_node.children.get(c);
             if(color_node.isEnd){
-                color_set.add(i);
+                color_list[i] = true;
             }
         }
 
@@ -84,12 +84,12 @@ class Main {
             }
             nick_node = nick_node.children.get(c);
             if(nick_node.isEnd){
-                nick_set.add(i);
+                nick_list[i] = true;
             }
         }
 
-        for(Integer idx : color_set){
-            if(nick_set.contains(idx+1)){
+        for(int i=0;i<2001;i++){
+            if(color_list[i] && nick_list[i+1]){
                 return "Yes";
             }
         }
@@ -107,20 +107,25 @@ class Main {
         color_root = new Node();
         nick_root = new Node();
 
+        // 4000 * 1000 = 4 * 10^6
         for(int i=0; i<C; i++){
             String str_color = br.readLine().trim();
             color_insert(str_color);
         }
 
+        // 4000 * 1000 = 4 * 10^6
         for(int i=0; i<N; i++){
             String str_nickname = br.readLine().trim();
             nickname_insert(str_nickname);
         }
 
         int Q = Integer.parseInt(br.readLine());
+
+        // 20,000 * 2,000 = 4 * 10^7
         for(int i=0; i<Q; i++){
             String str_team = br.readLine().trim();
-            sb.append(search(str_team)).append('\n');
+            String text = search(str_team);
+            sb.append(text).append('\n');
         }
         System.out.println(sb);
     }
